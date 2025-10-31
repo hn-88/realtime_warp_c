@@ -19,12 +19,20 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install FFmpeg 7
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y software-properties-common
+        sudo add-apt-repository ppa:ubuntuhandbook1/ffmpeg7
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg libavcodec-dev libavformat-dev libavutil-dev libswresample-dev
+
+
     - name: Install dependencies
       # We're using apt-get
       run: |
         sudo apt-get update
-        sudo apt-get install libavcodec-dev libavformat-dev libavutil-dev libswscale-dev \
-                 libglfw3-dev libglew-dev libsdl2-dev
+        sudo apt-get install libglfw3-dev libglew-dev libsdl2-dev
         mkdir -p imgui && cd imgui
         wget https://github.com/ocornut/imgui/archive/refs/tags/v1.91.0.zip
         unzip v1.91.0.zip
