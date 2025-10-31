@@ -53,9 +53,11 @@
 
 #include <SDL2/SDL.h>
 
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+// === LOCAL IMGUI ===
+#define IMGUI_IMPL_OPENGL_LOADER_GLEW
+#include "imgui/imgui.h"
+#include "imgui/backends/imgui_impl_glfw.h"
+#include "imgui/backends/imgui_impl_opengl3.h"
 
 #define WINDOW_WIDTH  960
 #define WINDOW_HEIGHT 540
