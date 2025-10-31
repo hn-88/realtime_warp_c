@@ -23,8 +23,12 @@ jobs:
       # We're using apt-get
       run: |
         sudo apt-get update
-        sudo apt-get install libavcodec-dev libglfw3-dev libglew-dev
+        sudo apt-get install libavcodec-dev libavformat-dev libavutil-dev libswscale-dev \
+                 libglfw3-dev libglew-dev libsdl2-dev libimgui-dev
 
     - name: Build
       # Build your program with the given configuration
-      run: gcc -o video_player video_player.c -lavformat -lavcodec -lavutil -lswscale -lglfw -lGLEW -lGL -lm
+      run: gcc -O2 -Wall video_player.c \
+                -lavformat -lavcodec -lavutil -lswscale \
+                -lglfw -lGLEW -lGL -lSDL2 -limgui \
+                -o video_player
