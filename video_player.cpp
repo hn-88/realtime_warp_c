@@ -276,7 +276,7 @@ static void run(GLFWwindow *win, const char *path)
         SDL_AudioSpec want = {0}, have;
         want.freq = adec->sample_rate;
         want.format = AUDIO_S16SYS;
-        want.channels = adec->channel_layout.nb_channels;
+        want.channels = adec->ch_layout.nb_channels;
         want.samples = 1024;
         want.callback = audio_callback;
         audio_dev = SDL_OpenAudioDevice(NULL, 0, &want, &have, 0);
@@ -321,7 +321,7 @@ static void run(GLFWwindow *win, const char *path)
             } else if (aidx >= 0 && pkt.stream_index == aidx && adec) {
                 avcodec_send_packet(adec, &pkt);
                 while (avcodec_receive_frame(adec, aframe) == 0) {
-                    int samples = aframe->nb_samples * aframe->channel_layout.nb_channels;
+                    int samples = aframe->nb_samples * aframe->ch_layout.nb_channels;
                     int bytes = samples * 2;
                     if ((uint32_t)(audio_buf_size - audio_buf_index) < (uint32_t)bytes) {
                         audio_buf_size = audio_buf_index + bytes;
