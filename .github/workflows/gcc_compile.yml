@@ -1,0 +1,30 @@
+name: gcc compile on Ubuntu
+
+on: workflow_dispatch
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  # This yml is copied from https://github.com/hn-88/pan2fulldome/blob/main/.github/workflows/cmake.yml
+  # and modified.
+  BUILD_TYPE: Release
+  #PATH_TO_ARTIFACT: $GITHUB_WORKSPACE/build/pan2fulldome this does not seem to work
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
+    # You can convert this to a matrix build if you need cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install dependencies
+      # We're using apt-get
+      run: |
+        sudo apt-get update
+        sudo apt-get install libavcodec-dev libglfw3-dev libglew-dev
+
+    - name: Build
+      # Build your program with the given configuration
+      run: gcc -o video_player video_player.c -lavformat -lavcodec -lavutil -lswscale -lglfw -lGLEW -lGL -lm
