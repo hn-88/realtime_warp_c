@@ -31,10 +31,16 @@ jobs:
         mv imgui-1.91.0/* .
         rm -r imgui-1.91.0 v1.91.0.zip
         ls -l
+        pwd
+        cd ..
+        ls -l
 
     - name: Build
       # Build your program with the given configuration
-      run: g++ -O2 -Wall \
+      run: |
+        pwd
+        ls -l
+        g++ -O2 -Wall \
               video_player.cpp \
               imgui/imgui.cpp \
               imgui/imgui_draw.cpp \
