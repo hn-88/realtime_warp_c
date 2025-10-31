@@ -33,7 +33,7 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run: gcc -O2 -Wall \
+      run: g++ -O2 -Wall \
               video_player.c \
               imgui/imgui.cpp \
               imgui/imgui_draw.cpp \
