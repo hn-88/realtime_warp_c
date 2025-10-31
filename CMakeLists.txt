@@ -33,17 +33,18 @@ add_executable(video_player
     imgui/backends/imgui_impl_opengl3.cpp
 )
 
-# --- Correct explicit link order for FFmpeg ---
+# The order below ensures correct symbol resolution for FFmpeg 6–7
 target_link_libraries(video_player
     avformat
     avcodec
-    avutil
     swscale
     swresample
+    avutil
     ${GLFW_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${SDL2_LIBRARIES}
     GL
     m
     pthread
+    dl
 )
