@@ -276,7 +276,7 @@ static void run(GLFWwindow *win, const char *path)
         SDL_AudioSpec want = {0}, have;
         want.freq = adec->sample_rate;
         want.format = AUDIO_S16SYS;
-        want.channels = adec->ch_layout.nb_channels;
+        want.channels = adec->channel_layout.nb_channels;
         want.samples = 1024;
         want.callback = audio_callback;
         audio_dev = SDL_OpenAudioDevice(NULL, 0, &want, &have, 0);
@@ -287,7 +287,7 @@ static void run(GLFWwindow *win, const char *path)
     AVFrame *nv12 = av_frame_alloc();
     uint8_t *buf = NULL;
     int size = av_image_get_buffer_size(AV_PIX_FMT_NV12, vdec->width, vdec->height, 1);
-    buf = av_malloc(size);
+    buf = (uint8_t*)av_malloc(size);
     av_image_fill_arrays(nv12->data, nv12->linesize, buf, AV_PIX_FMT_NV12, vdec->width, vdec->height, 1);
 
     double start = glfwGetTime();
@@ -321,11 +321,11 @@ static void run(GLFWwindow *win, const char *path)
             } else if (aidx >= 0 && pkt.stream_index == aidx && adec) {
                 avcodec_send_packet(adec, &pkt);
                 while (avcodec_receive_frame(adec, aframe) == 0) {
-                    int samples = aframe->nb_samples * aframe->ch_layout.nb_channels;
+                    int samples = aframe->nb_samples * aframe->channel_layout.nb_channels;
                     int bytes = samples * 2;
-                    if (audio_buf_size - audio_buf_index < bytes) {
+                    if ((uint32_t)(audio_buf_size - audio_buf_index) < (uint32_t)bytes) {
                         audio_buf_size = audio_buf_index + bytes;
-                        audio_buf = av_realloc(audio_buf, audio_buf_size);
+                        audio_buf = (uint8_t*)av_realloc(audio_buf, audio_buf_size);
                     }
                     int16_t *dst = (int16_t*)(audio_buf + audio_buf_index);
                     for (int i = 0; i < samples; ++i)
