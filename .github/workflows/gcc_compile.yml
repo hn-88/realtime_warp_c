@@ -24,11 +24,24 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install libavcodec-dev libavformat-dev libavutil-dev libswscale-dev \
-                 libglfw3-dev libglew-dev libsdl2-dev libimgui-dev
+                 libglfw3-dev libglew-dev libsdl2-dev
+        mkdir -p imgui && cd imgui
+        wget https://github.com/ocornut/imgui/archive/refs/tags/v1.91.zip
+        unzip v1.91.zip
+        mv imgui-1.91/* .
+        rm -r imgui-1.91 v1.91.zip
 
     - name: Build
       # Build your program with the given configuration
-      run: gcc -O2 -Wall video_player.c \
-                -lavformat -lavcodec -lavutil -lswscale \
-                -lglfw -lGLEW -lGL -lSDL2 -limgui \
-                -o video_player
+      run: gcc -O2 -Wall \
+              video_player.c \
+              imgui/imgui.cpp \
+              imgui/imgui_draw.cpp \
+              imgui/imgui_tables.cpp \
+              imgui/imgui_widgets.cpp \
+              imgui/backends/imgui_impl_glfw.cpp \
+              imgui/backends/imgui_impl_opengl3.cpp \
+              -Iimgui -Iimgui/backends \
+              -lavformat -lavcodec -lavutil -lswscale \
+              -lglfw -lGLEW -lGL -lSDL2 -lm \
+              -o video_player
