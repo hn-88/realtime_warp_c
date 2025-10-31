@@ -26,10 +26,10 @@ jobs:
         sudo apt-get install libavcodec-dev libavformat-dev libavutil-dev libswscale-dev \
                  libglfw3-dev libglew-dev libsdl2-dev
         mkdir -p imgui && cd imgui
-        wget https://github.com/ocornut/imgui/archive/refs/tags/v1.92.4.zip
-        unzip v1.92.4.zip
-        mv imgui-1.92.4/* .
-        rm -r imgui-1.92.4 v1.92.4.zip
+        wget https://github.com/ocornut/imgui/archive/refs/tags/v1.91.0.zip
+        unzip v1.91.0.zip
+        mv imgui-1.91.0/* .
+        rm -r imgui-1.91.0 v1.91.0.zip
 
     - name: Build
       # Build your program with the given configuration
