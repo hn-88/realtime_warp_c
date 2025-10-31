@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 project(video_player CXX)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -33,13 +32,14 @@ add_executable(video_player
     imgui/backends/imgui_impl_opengl3.cpp
 )
 
-# The order below ensures correct symbol resolution for FFmpeg 6–7
+# Use the library directories and libraries from pkg-config
+link_directories(
+    ${FFMPEG_LIBRARY_DIRS}
+)
+
+# Proper linking order for FFmpeg and other dependencies
 target_link_libraries(video_player
-    avformat
-    avcodec
-    swscale
-    swresample
-    avutil
+    ${FFMPEG_LIBRARIES}
     ${GLFW_LIBRARIES}
     ${GLEW_LIBRARIES}
     ${SDL2_LIBRARIES}
